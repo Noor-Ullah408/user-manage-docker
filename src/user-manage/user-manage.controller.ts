@@ -1,20 +1,19 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UserManageService } from './user-manage.service';
-import { CreateUserManageDto } from './dto/create-user-manage.dto';
-import { UpdateUserManageDto } from './dto/update-user-manage.dto';
+import { CreateUser, UpdateUser } from 'src/dto';
 
 @Controller()
 export class UserManageController {
   constructor(private readonly userManageService: UserManageService) {}
 
   @MessagePattern({ cmd: 'create_user' })
-  create(@Payload() createUserManageDto: CreateUserManageDto) {
+  create(@Payload() createUserManageDto: CreateUser) {
     return this.userManageService.create(createUserManageDto);
   }
 
   @MessagePattern({ cmd: 'getAll_users' })
-  findAll() {
+  async findAll() {
     return this.userManageService.findAll();
   }
 
@@ -24,7 +23,7 @@ export class UserManageController {
   }
 
   @MessagePattern('updateUserManage')
-  update(@Payload() updateUserManageDto: UpdateUserManageDto) {
+  update(@Payload() updateUserManageDto: UpdateUser) {
     return this.userManageService.update(
       updateUserManageDto.id,
       updateUserManageDto,

@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Notification {
+  id      Int    @id @default(autoincrement())
+  user_id Int?   @unique
+  message String
+}
+
+model Service {
+  id               Int      @id @default(autoincrement())
+  title            String
+  desc             String
+  child_service_id Int?     @unique
+  Service          Service? @relation("ServiceToService", fields: [child_service_id], references: [id])
+  other_Service    Service? @relation("ServiceToService")
+}
+
+model Ticket {
+  id            Int  @id @default(autoincrement())
+  ticket_number Int?
+  user_id       Int  @unique
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  password String
+}
