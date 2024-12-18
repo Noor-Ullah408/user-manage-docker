@@ -22,7 +22,7 @@ export class UserManageController {
     return this.userManageService.findOne(id);
   }
 
-  @MessagePattern('updateUserManage')
+  @MessagePattern({ cmd: 'update_user' })
   update(@Payload() updateUserManageDto: UpdateUser) {
     return this.userManageService.update(
       updateUserManageDto.id,
@@ -30,7 +30,7 @@ export class UserManageController {
     );
   }
 
-  @MessagePattern('removeUserManage')
+  @MessagePattern({ cmd: 'delete_user' })
   remove(@Payload() id: number) {
     return this.userManageService.remove(id);
   }
